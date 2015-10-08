@@ -436,8 +436,7 @@
 
             if (clase=='espacios naranja') {
               $(this).addClass('celeste').removeClass('naranja');
-                          }
-            else{
+            }else{
               $(this).addClass('naranja').removeClass('celeste');
             };
             document.getElementById("numeroEspacio").value = valor;
