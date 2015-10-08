@@ -4,8 +4,10 @@
   $espacios = consultar("espacio"); 
   $espaciosVacios = consultarGeneral("espacio","estado_espacio","=","OCUPADO");
   $fechaActual= getdate ();
-  $fecha = $fechaActual["mday"]."/".$fechaActual["mon"]."/".$fechaActual["year"];
-  $hora = $fechaActual["hours"].":".$fechaActual["minutes"];
+  // $fecha = $fechaActual["mday"]."/".$fechaActual["mon"]."/".$fechaActual["year"];
+  // $hora = $fechaActual["hours"].":".$fechaActual["minutes"];
+  $fecha = date("Y")."-".date("m")."-".date("d")." ".date("G").":".date("i").":".date("s");
+  $hora = date("G").":".date("i").":".date("s");
 
   
   //echo $fecha; echo $hora;
@@ -220,7 +222,7 @@
                   <table cellspacing="0" cellpadding="0">     
                     <tr>        
                     <?php while ($espacio = mysql_fetch_array($espaciosVacios)) {?>
-                      <th class="espacios" valor="<?php echo $espacio["nombre_espacio"]; ?>"><imput type="submit" name="numespacio"  value="<?php echo $espacio["nombre_espacio"]; ?>"></th>
+                      <th class="espacios" valor="<?php echo $espacio["nombre_espacio"]; ?>"><?php echo $espacio["nombre_espacio"]; ?></th>
                     <?php } ?>
                       <!-- <th>Title</th>
                       <th>Title</th>
@@ -274,27 +276,35 @@
                   <h3 class="box-title">Ingrese los Datos</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form role="form">
+                  <form action="liberarTicket.php" method=GET role="form">
                     <!-- text input -->
                     <div class="form-group">
-                      <label>Numero de ticket</label>
-                      <input id="numeroTicket" type="text" class="form-control" placeholder="Ticket ..." disabled>
+                      <label>Numero de espacio</label>
+                      <input id="numeroEspacio" name="nespacio" type="text" class="form-control" placeholder="Ticket ...">
                     </div>
                     <div class="form-group">
                       <label>Numero de placa</label>
-                      <input id="resultado" type="text" class="form-control" placeholder="Placa ..." disabled>
+                      <input id="numeroPlaca" name="nplaca" type="text" class="form-control" placeholder="Placa ...">
                     </div>
                     <!-- text input -->
                     <div class="form-group">
                       <label>Confirmar placa</label>
-                      <input type="text" class="form-control" placeholder="Confirmar ...">
+                      <input id="numeroPlacaC" name="nplacaC" type="text" class="form-control" placeholder="Confirmar ...">
                     </div>
-
+                    <!-- text input -->
+                    <div class="form-group">
+                      <label>fecha</label>
+                      <input id="idFecha" name="fechaSalida" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $fecha; ?>">
+                    </div>
+                    <!-- button -->
+                    <div class="box-footer">
+                      <button id="guardar" type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
                   </form>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
              
-              <!-- save box -->
+              <!-- save box 
               <div class="box box-info">
                 <div class="box-header">
                   <h3 class="box-title">Guardar</h3>
@@ -305,7 +315,7 @@
                     <button type="submit" class="btn btn-primary">Guardar</button>
                   </div>
 
-                </div><!-- /.box-body -->
+                </div> /.box-body -->
               </div><!-- /.box -->
             </div><!--/.col (right) -->
 
@@ -426,12 +436,18 @@
 
             if (clase=='espacios naranja') {
               $(this).addClass('celeste').removeClass('naranja');
-
-            }
+                          }
             else{
               $(this).addClass('naranja').removeClass('celeste');
             };
-            document.getElementById("numeroTicket").value = valor;
+            document.getElementById("numeroEspacio").value = valor;
+            $.ajax({
+              type:"GET",
+              url:"consultarPlaca.php",
+              data:{numespacio:valor}
+            }).done(function(msg){
+              document.getElementById("numeroPlaca").value = msg;
+            });
             alert(clase+" "+valor);
         });
 

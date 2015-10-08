@@ -31,7 +31,7 @@
 	}
 	function consultarMAX($tabla,$campoMAX,$campo,$condicion,$parametro){
 		conexion();
-		$query = "SELECT MAX(".$campoMAX.") FROM ".$tabla." WHERE ".$campo.$condicion."'".$parametro."'";
+		$query = "SELECT MAX(".$campoMAX.") AS ".$campoMAX." FROM ".$tabla." WHERE ".$campo.$condicion."'".$parametro."'";
 		// echo $query."<br>";
 		$resultado = mysql_query($query);
 		salir();

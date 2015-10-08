@@ -279,7 +279,7 @@
                     <!-- text input -->
                     <div class="form-group">
                       <label>Numero de espacio</label>
-                      <input id="numeroTicket" name="nespacio" type="text" class="form-control" placeholder="Enter ...">
+                      <input id="numeroEspacio" name="nespacio" type="text" class="form-control" placeholder="Enter ...">
                     </div>
                     <!-- text input -->
                     <div class="form-group">
@@ -294,13 +294,9 @@
                     <!-- text input -->
                     <div class="form-group">
                       <label>fecha</label>
-                      <input id="idFecha" name="fechaTicket" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $fecha; ?>">
+                      <input id="idFecha" name="fechaRegistro" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $fecha; ?>">
                     </div>
-                    <!-- text input -->
-                    <div class="form-group">
-                      <label>Hora</label>
-                      <input id="idHora" name="horaTicket" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $hora; ?>">
-                    </div>
+                    <!-- button -->
                     <div class="box-footer">
                       <button id="guardar" type="submit" class="btn btn-primary">Guardar</button>
                     </div>
@@ -444,7 +440,7 @@
               //update espacio=libre
 
             };
-            document.getElementById("numeroTicket").value = valor;
+            document.getElementById("numeroEspacio").value = valor;
             alert(clase+" "+valor);
         });
 

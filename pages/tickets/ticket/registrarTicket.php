@@ -4,8 +4,7 @@
 	if (isset($_GET['nespacio']) && !empty($_GET['nespacio']) && 
 		isset($_GET['placa']) && !empty($_GET['placa']) &&
 		isset($_GET['nombreUsuario']) && !empty($_GET['nombreUsuario']) &&
-		isset($_GET['fechaTicket']) && !empty($_GET['fechaTicket']) &&
-		isset($_GET['horaTicket']) && !empty($_GET['horaTicket'])) {
+		isset($_GET['fechaRegistro']) && !empty($_GET['fechaRegistro'])) {
 		
 		$id_espacio;
 		$espacios = consultarGeneral("espacio","nombre_espacio","=",$_GET['nespacio']);
@@ -19,15 +18,14 @@
 		 	$id_usuario = $usuario['id_usuario'];
 		 } 
 
-		$campos = "id_ticket,'".$_GET['placa']."','".$_GET['fechaTicket']."','','','".$id_espacio."','".$id_usuario."'";
+		$campos = "id_ticket,'".$_GET['placa']."','".$_GET['fechaRegistro']."','','','".$id_espacio."','".$id_usuario."'";
 		$insert = insertarRegistro("ticket",$campos);
 		$update = actualizarRegistro("espacio","estado_espacio='OCUPADO'","nombre_espacio","=",$_GET['nespacio']);
 		echo "Ticket Guardado<br>";
 		echo "<a href='index.php'>Volver</a>";
 		//echo "TICKET ".$_GET['nespacio']." PLACA ".$_GET['placa'];
 
-	}
-	else {
+	}else {
 		echo "No se ha llenado todos los campos";
 	}
  ?>
