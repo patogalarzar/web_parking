@@ -26,7 +26,8 @@
 		//echo "TICKET ".$_GET['nespacio']." PLACA ".$_GET['placa'];
 
 	}else {
-		echo "No se ha llenado todos los campos";
+		echo "No se ha llenado todos los campos<br>";
+		echo "<a href='index.php'>Volver</a>";
 	}
  ?>
 <?php 

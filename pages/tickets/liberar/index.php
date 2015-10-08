@@ -3,7 +3,7 @@
   date_default_timezone_set("America/Guayaquil");
   $espacios = consultar("espacio"); 
   $espaciosVacios = consultarGeneral("espacio","estado_espacio","=","OCUPADO");
-  $fechaActual= getdate ();
+  // $fechaActual= getdate ();
   // $fecha = $fechaActual["mday"]."/".$fechaActual["mon"]."/".$fechaActual["year"];
   // $hora = $fechaActual["hours"].":".$fechaActual["minutes"];
   $fecha = date("Y")."-".date("m")."-".date("d")." ".date("G").":".date("i").":".date("s");

@@ -98,7 +98,7 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="./../dist/img/avatar2.png" class="img-circle" alt="User Image">
+                    <img src="../../dist/img/avatar2.png" class="img-circle" alt="User Image">
                     <p>
                       <?php echo $usuario; ?> - Web Developer
                     </p>
@@ -422,23 +422,33 @@
     </script>
     <script type="text/javascript">
       $(document).on("ready",function(){
-
+        var valorAnterior="0";
         $('th').click(function(){
             
             removerClase('th', 'celeste');
             removerClase('th', 'naranja');
             var clase=$(this).attr('class');
             var valor=$(this).attr('valor');
-
+            
             if (clase=='espacios naranja') {
+              //cambio de color espacio
               $(this).addClass('celeste').removeClass('naranja');
-              //update espacio=reservado
               
-            }
-            else{
+            }else{
+              //cambio de color espacio
               $(this).addClass('naranja').removeClass('celeste');
-              //update espacio=libre
-
+             
+              //cambio de estado espacio RESERVADO
+              $.ajax({
+                async:false,
+                type:"GET",
+                url:"../espacio/espacios.php",
+                data:{nespacio:valor, estadoespacio:'RESERVADO', nespacioant:valorAnterior, estadoespacioant:'LIBRE'}
+              }).done(function(msg){
+                alert("Espacio Reservado");
+              });
+              
+              valorAnterior=valor;
             };
             document.getElementById("numeroEspacio").value = valor;
             alert(clase+" "+valor);
