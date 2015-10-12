@@ -1,5 +1,7 @@
 <?php 
   require_once('../../../app/parking.php');
+  require_once('../../../clases/cargarEspacios.php');
+  
   date_default_timezone_set("America/Guayaquil");
   $espacios = consultar("espacio"); 
   $espaciosVacios = consultarGeneral("espacio","estado_espacio","=","LIBRE");
@@ -50,6 +52,7 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
     <style type="text/css">
       .espacios:hover {
         background-color: #ff5000;
@@ -98,7 +101,7 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="../../dist/img/avatar2.png" class="img-circle" alt="User Image">
+                    <img src="../../../dist/img/avatar2.png" class="img-circle" alt="User Image">
                     <p>
                       <?php echo $usuario; ?> - Web Developer
                     </p>
@@ -204,7 +207,61 @@
 
         <!-- Main content -->
         <section class="content">
-
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h3>150</h3>
+                  <p>Torre A</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+                  <p>Torre B</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3>44</h3>
+                  <p>Exteriores</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-red">
+                <div class="inner">
+                  <h3>65</h3>
+                  <p>Ocupados</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+          </div><!-- /.row -->
           <!-- SELECT2 EXAMPLE -->
           <div class="box box-default">
             <div class="box-header with-border">
@@ -217,12 +274,8 @@
             <div class="box-body">
               <div class="row">
                 <table cellspacing="0" cellpadding="0">     
-                  <tr>        
-                  <?php while ($espacio = mysql_fetch_array($espaciosVacios)) {?>
-                    <th class="espacios" valor="<?php echo $espacio["nombre_espacio"]; ?>"><?php echo $espacio["nombre_espacio"]; ?></th>
-                  <?php } ?>
-
-                  
+                  <tr id="esp">        
+                    <?php  Consultar::ids(); ?>
                     <!-- <th>Title</th>
                     <th>Title</th>
                     <th>Title</th>
@@ -275,7 +328,8 @@
                   <h3 class="box-title">Ingrese lo Datos</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form action="registrarTicket.php" method=GET role="form">
+                  <!-- <form action="registrarTicket.php" method=GET role="form"> -->
+                  <form role="form">
                     <!-- text input -->
                     <div class="form-group">
                       <label>Numero de espacio</label>
@@ -289,12 +343,12 @@
                     <!-- text input -->
                     <div class="form-group">
                       <label>Usuario</label>
-                      <input id="idUsuario" name="nombreUsuario" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $alias; ?>">
+                      <input id="nombreUsuario" name="nusuario" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $alias; ?>">
                     </div>
                     <!-- text input -->
                     <div class="form-group">
                       <label>fecha</label>
-                      <input id="idFecha" name="fechaRegistro" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $fecha; ?>">
+                      <input id="fecha" name="fechaRegistro" type="text" class="form-control" placeholder="Enter ..." value="<?php echo $fecha; ?>">
                     </div>
                     <!-- button -->
                     <div class="box-footer">
@@ -420,9 +474,10 @@
       //   // });
       // });
     </script>
+    <script type="text/javascript" src="../../../js/fancywebsocket.js"></script>
     <script type="text/javascript">
       $(document).on("ready",function(){
-        var valorAnterior="0";
+        var valorAnterior="1001";
         $('th').click(function(){
             
             removerClase('th', 'celeste');
@@ -442,10 +497,10 @@
               $.ajax({
                 async:false,
                 type:"GET",
-                url:"../espacio/espacios.php",
-                data:{nespacio:valor, estadoespacio:'RESERVADO', nespacioant:valorAnterior, estadoespacioant:'LIBRE'}
+                url:"../espacio/cambiarEstadoEspacios.php",
+                data:{nespacio:valor, estadoespacio:'RESERVADO', nespacioant:valorAnterior, estadoespacioant:'LIBRE'},
               }).done(function(msg){
-                alert("Espacio Reservado");
+                alert(msg);
               });
               
               valorAnterior=valor;
@@ -453,13 +508,30 @@
             document.getElementById("numeroEspacio").value = valor;
             alert(clase+" "+valor);
         });
-
+        
         function removerClase(tag, clase){
           $(tag).removeClass(clase);
         }
 
         $('button').click(function(){
-            alert("click");
+            alert("click boton Guardar");
+            var nespacio = document.getElementById('numeroEspacio').value;
+            var placa    = document.getElementById('placaVehiculo').value;
+            var nusuario = document.getElementById('nombreUsuario').value;
+            var fechaRegistro = document.getElementById('fecha').value;
+            $.ajax({
+                // async:false,
+                type:"POST",
+                url:"registrarTicket.php",
+                data:{nespacio:nespacio,placa:placa,nusuarionusuario,fechaRegistrofechaRegistro},
+                dataType:"html",
+                success: function(data){
+                  send(data);//arrayJSON
+                  // window.location.href="index.php"
+                } 
+              }).done(function(msg){
+                alert("Espacio Reservado");
+              });
         });
       });
     </script>

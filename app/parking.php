@@ -21,6 +21,9 @@
 		salir();
 		return $resultado;		
 	}
+	if ( !empty($request) ) {
+		consultarGeneral();
+	}
 	function consultarGeneral($tabla,$campo,$condicion,$parametro){
 		conexion();
 		$query = "SELECT * FROM ".$tabla." WHERE ".$campo.$condicion."'".$parametro."'";

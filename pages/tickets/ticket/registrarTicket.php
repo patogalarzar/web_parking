@@ -1,9 +1,10 @@
 <?php 
 	require_once("../../../app/parking.php");
+	require_once('../../../clases/cargarEspacios.php');
 
 	if (isset($_GET['nespacio']) && !empty($_GET['nespacio']) && 
 		isset($_GET['placa']) && !empty($_GET['placa']) &&
-		isset($_GET['nombreUsuario']) && !empty($_GET['nombreUsuario']) &&
+		isset($_GET['nusuario']) && !empty($_GET['nusuario']) &&
 		isset($_GET['fechaRegistro']) && !empty($_GET['fechaRegistro'])) {
 		
 		$id_espacio;
@@ -13,7 +14,7 @@
 		}
 
 		$id_usuario;
-		$usuarios = consultarGeneral("usuario","alias_usuario","=",$_GET['nombreUsuario']);
+		$usuarios = consultarGeneral("usuario","alias_usuario","=",$_GET['nusuario']);
 		while ($usuario = mysql_fetch_array($usuarios)) {
 		 	$id_usuario = $usuario['id_usuario'];
 		 } 
@@ -21,9 +22,17 @@
 		$campos = "id_ticket,'".$_GET['placa']."','".$_GET['fechaRegistro']."','','','".$id_espacio."','".$id_usuario."'";
 		$insert = insertarRegistro("ticket",$campos);
 		$update = actualizarRegistro("espacio","estado_espacio='OCUPADO'","nombre_espacio","=",$_GET['nespacio']);
-		echo "Ticket Guardado<br>";
-		echo "<a href='index.php'>Volver</a>";
-		//echo "TICKET ".$_GET['nespacio']." PLACA ".$_GET['placa'];
+		
+		$arrayJSON = array();
+		$nuevaConsulta = Consultar::ids();
+		$arrayJSON[]=array("nuevaConsulta"=>$nuevaConsulta
+			
+		);
+		echo json_encode($arrayJSON);
+
+		// echo "Ticket Guardado<br>";
+		// echo "<a href='index.php'>Volver</a>";
+		// echo "TICKET ".$_GET['nespacio']." PLACA ".$_GET['placa'];
 
 	}else {
 		echo "No se ha llenado todos los campos<br>";

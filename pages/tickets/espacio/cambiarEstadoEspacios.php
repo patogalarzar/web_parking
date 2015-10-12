@@ -9,8 +9,13 @@
 		$update = actualizarRegistro("espacio","estado_espacio='".$_GET['estadoespacio']."'","nombre_espacio","=",$_GET['nespacio']);
 		//libera el espacio anterior seleccionado
 		$updateant = actualizarRegistro("espacio","estado_espacio='".$_GET['estadoespacioant']."'","nombre_espacio","=",$_GET['nespacioant']);
+		echo "Espacio Reservado";
 	}else {
-		echo "No se ha llenado todos los campos<br>";
+		echo "Campos Vacios: <br>";
+		echo "Espacio: ".$_GET['nespacio']." <br>";
+		echo "Estado: ".$_GET['estadoespacio']." <br>";
+		echo "Espacio Anterior: ".$_GET['nespacioant']." <br>";
+		echo "Estado Anterior: ".$_GET['estadoespacioant']." <br>";
 		echo "<a href='index.php'>Volver</a>";
 	}
  ?>
