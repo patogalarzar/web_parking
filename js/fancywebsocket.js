@@ -42,10 +42,11 @@ var FancyWebSocket = function(url)
 	{
 		if(message == null || message == "")//aqui es donde se realiza toda la accion
 			{
-				alert("mensaje nulo o vacio");
+				 alert("mensaje nulo o vacio");
 			}
 			else
 			{
+				alert("dispatch: " + message);
 				var JSONdata    = JSON.parse(message); //parseo la informacion
 				
 				actualiza_mensaje(message);
@@ -61,7 +62,7 @@ function send( text )
 }
 $(document).ready(function() 
 {
-	Server = new FancyWebSocket('ws://localhost:8080');
+	Server = new FancyWebSocket('ws://127.0.0.1:12345');
     Server.bind('open', function()
 	{
     });
@@ -79,8 +80,15 @@ $(document).ready(function()
 function actualiza_mensaje(message)
 {
 	var JSONdata    = JSON.parse(message); //parseo la informacion
-				var espacios = JSONdata[0].tipo;
-					alert("tipo de envio 2");			
+				alert("actualiza_mensaje: "+ message);
+				var nespacio = JSONdata[0].nespacio;
+				var placa    = JSONdata[0].placa;
+				var nusuario = JSONdata[0].nusuario;
+				var etiqueta = document.getElementById(nespacio);	
+				
+				etiqueta.parentNode.removeChild(etiqueta);
+				alert("El usuario: " + nusuario + " asigno el espacio: " + nespacio + " al vehiculo con placa: " + placa);
+
 				// $("#esp").html(espacios);
 }
 function actualiza_solicitud()

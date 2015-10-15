@@ -75,6 +75,33 @@
         background-color: #ff5000;
       }
     </style>
+    <script src="../../../js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../../../js/fancywebsocket.js"></script>
+    
+    <script type="text/javascript">
+        function insertar()
+        {
+            alert("click boton Guardar");
+            var nespacio = document.getElementById('numeroEspacio').value;
+            var placa    = document.getElementById('placaVehiculo').value;
+            var nusuario = document.getElementById('nombreUsuario').value;
+            
+            $.ajax({
+                // async:false,
+                type:"POST",
+                url:"registrarTicket.php",
+                data: "nespacio=" + nespacio + "&placa=" + placa + "&nusuario=" + nusuario,
+                dataType:"html",
+                success: function(data){
+                  alert("success data: " + data);
+                  send(data);//arrayJSON             
+                },
+                error: function(data){
+                  alert("error data: " + data);
+                }
+              });
+        }
+    </script>
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -329,7 +356,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <!-- <form action="registrarTicket.php" method=GET role="form"> -->
-                  <form role="form">
+                   <form >
                     <!-- text input -->
                     <div class="form-group">
                       <label>Numero de espacio</label>
@@ -352,7 +379,8 @@
                     </div>
                     <!-- button -->
                     <div class="box-footer">
-                      <button id="guardar" type="submit" class="btn btn-primary">Guardar</button>
+                      <input class="btn btn-primary" type="submit" value="Guardar" onclick="insertar();"/>
+                      <!-- <button id="guardar" type="submit" class="btn btn-primary" onclick="insertar();">Guardar</button> -->
                     </div>
                   </form>
                 </div><!-- /.box -->
@@ -412,69 +440,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="../../../dist/js/demo.js"></script>
     <!-- Page script -->
-    <script>
-      // $(function () {
-      //   //Initialize Select2 Elements
-      //   $(".select2").select2();
-
-      //   //Datemask dd/mm/yyyy
-      //   $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-      //   //Datemask2 mm/dd/yyyy
-      //   $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-      //   //Money Euro
-      //   $("[data-mask]").inputmask();
-
-      //   //Date range picker
-      //   $('#reservation').daterangepicker();
-      //   //Date range picker with time picker
-      //   $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-      //   //Date range as a button
-      //   $('#daterange-btn').daterangepicker(
-      //       {
-      //         ranges: {
-      //           'Today': [moment(), moment()],
-      //           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-      //           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-      //           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-      //           'This Month': [moment().startOf('month'), moment().endOf('month')],
-      //           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      //         },
-      //         startDate: moment().subtract(29, 'days'),
-      //         endDate: moment()
-      //       },
-      //   function (start, end) {
-      //     $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-      //   }
-      //   );
-
-      //   //iCheck for checkbox and radio inputs
-      //   $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-      //     checkboxClass: 'icheckbox_minimal-blue',
-      //     radioClass: 'iradio_minimal-blue'
-      //   });
-      //   //Red color scheme for iCheck
-      //   $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-      //     checkboxClass: 'icheckbox_minimal-red',
-      //     radioClass: 'iradio_minimal-red'
-      //   });
-      //   //Flat red color scheme for iCheck
-      //   $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-      //     checkboxClass: 'icheckbox_flat-green',
-      //     radioClass: 'iradio_flat-green'
-      //   });
-
-      //   //Colorpicker
-      //   $(".my-colorpicker1").colorpicker();
-      //   //color picker with addon
-      //   $(".my-colorpicker2").colorpicker();
-
-      //   //Timepicker
-      //   // $(".timepicker").timepicker({
-      //   //   showInputs: false
-      //   // });
-      // });
-    </script>
-    <script type="text/javascript" src="../../../js/fancywebsocket.js"></script>
+    
     <script type="text/javascript">
       $(document).on("ready",function(){
         var valorAnterior="1001";
@@ -494,14 +460,14 @@
               $(this).addClass('naranja').removeClass('celeste');
              
               //cambio de estado espacio RESERVADO
-              $.ajax({
-                async:false,
-                type:"GET",
-                url:"../espacio/cambiarEstadoEspacios.php",
-                data:{nespacio:valor, estadoespacio:'RESERVADO', nespacioant:valorAnterior, estadoespacioant:'LIBRE'},
-              }).done(function(msg){
-                alert(msg);
-              });
+              // $.ajax({
+              //   async:false,
+              //   type:"GET",
+              //   url:"../espacio/cambiarEstadoEspacios.php",
+              //   data:{nespacio:valor, estadoespacio:'RESERVADO', nespacioant:valorAnterior, estadoespacioant:'LIBRE'},
+              // }).done(function(msg){
+              //   alert(msg);
+              // });
               
               valorAnterior=valor;
             };
@@ -512,27 +478,6 @@
         function removerClase(tag, clase){
           $(tag).removeClass(clase);
         }
-
-        $('button').click(function(){
-            alert("click boton Guardar");
-            var nespacio = document.getElementById('numeroEspacio').value;
-            var placa    = document.getElementById('placaVehiculo').value;
-            var nusuario = document.getElementById('nombreUsuario').value;
-            var fechaRegistro = document.getElementById('fecha').value;
-            $.ajax({
-                // async:false,
-                type:"POST",
-                url:"registrarTicket.php",
-                data:{nespacio:nespacio,placa:placa,nusuarionusuario,fechaRegistrofechaRegistro},
-                dataType:"html",
-                success: function(data){
-                  send(data);//arrayJSON
-                  // window.location.href="index.php"
-                } 
-              }).done(function(msg){
-                alert("Espacio Reservado");
-              });
-        });
       });
     </script>
   </body>
